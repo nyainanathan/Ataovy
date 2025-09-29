@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const navigate = useNavigate();
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-
+    
     const handleLogin = async () => {
         try{
             const userInfo_raw = await fetch(`${API_URL}/user/${email}`)

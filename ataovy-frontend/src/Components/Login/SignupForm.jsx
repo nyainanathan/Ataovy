@@ -11,13 +11,47 @@ const SignupForm = () => {
     
     const navigate = useNavigate();
 
-    const handleSignup = () => {
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
+    
+    const addTheNewUser = async () => {
+        try{
+            const newUser = {
+                firstName: firstname,
+                lastName: lastname, 
+                email, 
+                password
+            }
+            const response = await fetch(`${API_URL}/user/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            })
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return true;
+        } catch(err){
+            console.error(err);
+            alert("Failed to create user. Please try again.");
+            return false;
+        }
+    }
+
+    const handleSignup = async () => {
         if(!firstname || !lastname || !email || !password) {
             alert("Fill up every field!")
         } else if (password != confirmPassword) {
             alert("The passwords are not matching!")
         } else {
-            alert("everything good")
+            const success = await addTheNewUser();
+            if (success) {
+                alert("User created successfully!");
+                navigate("/");
+            }
         }
     }
 

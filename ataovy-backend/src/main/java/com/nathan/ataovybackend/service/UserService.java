@@ -21,4 +21,8 @@ public class UserService {
     public Optional<User> getUserByEmail(String email) {
         return repo.findByEmail(email);
     }
+
+    public void createUser(User newUser) {
+        repo.save(newUser);
+    }
 }

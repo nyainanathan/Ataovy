@@ -1,12 +1,10 @@
 package com.nathan.ataovybackend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -17,7 +15,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User {
     @Id
-    @Column(name="id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
     private UUID id;
     @Column(name="first_name")
     private String firstName;
