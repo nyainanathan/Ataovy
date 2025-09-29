@@ -40,13 +40,22 @@ const LoginForm = () => {
                 <label htmlFor="password"> Password: </label>
                 <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password" placeholder="password ... "/>
             </div>
-            <button 
-            className="bg-green-400 p-3 rounded-2xl"
-            onClick={(e) => {
-                e.preventDefault();
-                handleLogin();
-            }}
-            >Login</button>
+            <div className="flex gap-8">
+                <button 
+                className="bg-green-400 p-3 rounded-2xl"
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleLogin();
+                }}
+                >Sign in </button>
+
+                <button
+                className="bg-blue-400 p-3 rounded-2xl"
+                onClick={() => navigate("/signup")}
+                >
+                    Sign up
+                </button>
+            </div>
         
         </div>
     )
