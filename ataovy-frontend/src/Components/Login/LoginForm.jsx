@@ -11,18 +11,19 @@ const LoginForm = () => {
     
     const handleLogin = async () => {
         try{
-            const userInfo_raw = await fetch(`${API_URL}/user/${email}`)
-            const userInfo = await userInfo_raw.json();
-            if (!userInfo) {
-                alert("There is no user assigned to this email");
-                setEmail("");
-                setPassword("");
-            } else if (userInfo.password == password ){
-                navigate("/home")
-            } else {
-                alert("Wrong credentials");
-                setPassword("");
-            }
+            const loginRequestObject = {
+                email: email,
+                password: password
+            };
+            const loginStatusRaw = await fetch(`${API_URL}/user/login`, {
+                method: 'POST',
+                body: JSON.stringify(loginRequestObject),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            const loginStatus = await loginStatusRaw.json();
+            console.log(loginStatus);
         } catch(err){
             console.error(err);
         }

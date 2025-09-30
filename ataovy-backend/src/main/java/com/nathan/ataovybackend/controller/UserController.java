@@ -1,9 +1,11 @@
 package com.nathan.ataovybackend.controller;
 
+import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +42,13 @@ public class UserController {
     @GetMapping("/{email}")
     public Optional<User> getUserByEmail(@PathVariable String email) {
         return service.getUserByEmail(email);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        boolean success = service.validateLogin(loginRequest);
+        return success
+                ? ResponseEntity.ok("Login successful")
+                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 }
