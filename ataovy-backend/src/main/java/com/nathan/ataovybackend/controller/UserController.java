@@ -2,6 +2,7 @@ package com.nathan.ataovybackend.controller;
 
 import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class UserController {
-    @Autowired
+
     private UserService service;
 
     @GetMapping("/")
