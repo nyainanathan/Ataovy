@@ -22,8 +22,8 @@ const LoginForm = () => {
                     'Content-type': 'application/json'
                 }
             });
-            const loginStatus = await loginStatusRaw.json();
-            console.log(loginStatus);
+            const loginStatus = await loginStatusRaw.text();
+            loginStatus == "Login successful" ? navigate("/home") : alert("Wrong credentials")
         } catch(err){
             console.error(err);
         }
