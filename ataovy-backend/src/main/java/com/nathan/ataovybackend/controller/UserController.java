@@ -2,6 +2,7 @@ package com.nathan.ataovybackend.controller;
 
 import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
+import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ import java.util.Optional;
 public class UserController {
 
     private UserService service;
+//    private JwtUtil jwtUtil;
+//
+//    @GetMapping("/token")
+//    public String getToken(@RequestBody String username) {
+//        return jwtUtil.generateToken(username);
+//    }
 
     @GetMapping("/")
     public List<User> getAllUser() {
