@@ -41,8 +41,8 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<?> createUser(@RequestBody User newUser){
         try {
-            Optional<User> existingUser = service.getUserByEmail(newUser.getEmail());
-            if (existingUser.isPresent()) {
+            User existingUser = service.getUserByEmail(newUser.getEmail());
+            if (existingUser == null) {
                 return ResponseEntity.badRequest().body("User with this email already exists");
             }
             service.createUser(newUser);
@@ -53,15 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public Optional<User> getUserByEmail(@PathVariable String email) {
+    public User getUserByEmail(@PathVariable String email) {
         return service.getUserByEmail(email);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        boolean success = service.validateLogin(loginRequest);
-        return success
-                ? ResponseEntity.ok("Login successful")
-                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 }
