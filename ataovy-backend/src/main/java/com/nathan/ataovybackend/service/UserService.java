@@ -1,11 +1,9 @@
 package com.nathan.ataovybackend.service;
 
-import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -45,11 +45,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form.disable())
+               .authorizeHttpRequests( auth -> auth
+                       .requestMatchers("/auth/**").permitAll()
+                       .anyRequest().authenticated()
+               )
+               .formLogin(form -> form.disable())
                 .headers(h -> h.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
