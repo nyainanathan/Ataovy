@@ -1,0 +1,31 @@
+package com.nathan.ataovybackend.controller;
+
+import com.nathan.ataovybackend.security.JwtUtil;
+import io.jsonwebtoken.JwtException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+public class AuthController {
+
+    private JwtUtil jwtUtil;
+
+    @GetMapping("/token")
+    public String getToken(@RequestBody String username) {
+        return jwtUtil.generateToken(username);
+    }
+
+    @GetMapping("/name")
+    public String testToken(@RequestBody String token) throws JwtException, IllegalArgumentException {
+        return jwtUtil.extractUsername(token);
+    }
+
+    @GetMapping("/validate")
+    public boolean validateToken(@RequestBody String token) throws JwtException, IllegalArgumentException {
+        return jwtUtil.validateToken(token);
+    }
+}

@@ -21,17 +21,6 @@ import java.util.Optional;
 public class UserController {
 
     private UserService service;
-    private JwtUtil jwtUtil;
-
-    @GetMapping("/token")
-    public String getToken(@RequestBody String username) {
-        return jwtUtil.generateToken(username);
-    }
-
-    @GetMapping("/name")
-    public String testToken(@RequestBody String token) throws JwtException, IllegalArgumentException {
-        return jwtUtil.extractUsername(token);
-    }
 
     @GetMapping("/")
     public List<User> getAllUser() {
