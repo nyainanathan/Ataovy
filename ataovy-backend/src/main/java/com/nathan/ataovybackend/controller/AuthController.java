@@ -4,6 +4,8 @@ import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,20 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    private String loginUser(@RequestBody LoginRequest loginCredentials) {
-        return authService.loginUser(loginCredentials);
+    private ResponseEntity<?> loginUser(@RequestBody LoginRequest loginCredentials, HttpServletResponse response) {
+        String token = authService.loginUser(loginCredentials);
+        if(!Objects.equals(token, "invalid password") && !Objects.equals(token, "invalid email")){
+            Cookie cookie = new Cookie("jwt", token);
+            cookie.setHttpOnly(true);       // JavaScript can't read it         // only over HTTPS
+            cookie.setPath("/");            // available to the whole domain
+            cookie.setMaxAge(60 * 60);      // 1 hour
+            cookie.setAttribute("SameSite", "Strict"); // prevent CSRF
+
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok("Login successful");
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/signup")

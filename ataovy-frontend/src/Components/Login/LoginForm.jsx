@@ -15,15 +15,20 @@ const LoginForm = () => {
                 email: email,
                 password: password
             };
-            const loginStatusRaw = await fetch(`${API_URL}/user/login`, {
+            const loginStatusRaw = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 body: JSON.stringify(loginRequestObject),
+                credentials: "include",
                 headers: {
                     'Content-type': 'application/json'
                 }
             });
             const loginStatus = await loginStatusRaw.text();
-            loginStatus == "Login successful" ? navigate("/home") : alert("Wrong credentials")
+            if(loginStatus != "invalid email" && loginStatus != "invalid password"){
+                console.log(loginStatus);
+            } else {
+                alert(loginStatus)
+            }
         } catch(err){
             console.error(err);
         }
