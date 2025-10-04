@@ -26,7 +26,7 @@ public class TodoController {
     @PostMapping("/create-single")
     public ResponseEntity<?> createOneTodo(@RequestBody Todo todo){
         try{
-            service.createTodo(todo);
+            service.createOrEditTodo(todo);
             return new ResponseEntity<>("Todo created succesfully", HttpStatus.CREATED);
         } catch(Exception ex){
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
@@ -57,7 +57,7 @@ public class TodoController {
     @PutMapping("/")
     public ResponseEntity<?> editTodo(@RequestBody Todo todo){
         try{
-            service.createTodo(todo);
+            service.createOrEditTodo(todo);
             return new ResponseEntity<>("Todo edit succesfully", HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);

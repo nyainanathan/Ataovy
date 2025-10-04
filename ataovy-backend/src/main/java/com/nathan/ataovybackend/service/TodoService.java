@@ -18,7 +18,7 @@ public class TodoService {
         return repo.findByUserId(id);
     }
 
-    public void createTodo(Todo todo) {
+    public void createOrEditTodo(Todo todo) {
         repo.save(todo);
     }
 
