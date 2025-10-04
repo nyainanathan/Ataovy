@@ -19,18 +19,17 @@ import java.util.Objects;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AuthController {
 
-    private JwtUtil jwtUtil;
-    private AuthService authService;
+        private AuthService authService;
 
     @PostMapping("/login")
     private ResponseEntity<?> loginUser(@RequestBody LoginRequest loginCredentials, HttpServletResponse response) {
         String token = authService.loginUser(loginCredentials);
         if(!Objects.equals(token, "invalid password") && !Objects.equals(token, "invalid email")){
             Cookie cookie = new Cookie("jwt", token);
-            cookie.setHttpOnly(true);       // JavaScript can't read it         // only over HTTPS
-            cookie.setPath("/");            // available to the whole domain
-            cookie.setMaxAge(60 * 60);      // 1 hour
-            cookie.setAttribute("SameSite", "Strict"); // prevent CSRF
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60);
+            cookie.setAttribute("SameSite", "Strict");
 
             response.addCookie(cookie);
 

@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: ToDo List API
+  description: A simple API for managing a ToDo list
+  version: 1.0.0
+servers:
+  - url: https://api.todo.example.com/v1
+paths:
+  /todos:
+    get:
+      summary: List all ToDo items
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ToDo'
+    post:
+      summary: Create a new ToDo item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToDoInput'
+      responses:
+        '201':
+          description: ToDo item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDo'
+  /todos/{id}:
+    get:
+      summary: Get a specific ToDo item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDo'
+    put:
+      summary: Update a ToDo item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToDoInput'
+      responses:
+        '200':
+          description: ToDo item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToDo'
+    delete:
+      summary: Delete a ToDo item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ToDo item deleted
+components:
+  schemas:
+    ToDo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the ToDo item
+        title:
+          type: string
+          description: Title of the ToDo item
+        completed:
+          type: boolean
+          description: Whether the ToDo item is completed
+          default: false
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+      required:
+        - id
+        - title
+    ToDoInput:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the ToDo item
+        completed:
+          type: boolean
+          description: Whether the ToDo item is completed
+          default: false
+      required:
+        - title

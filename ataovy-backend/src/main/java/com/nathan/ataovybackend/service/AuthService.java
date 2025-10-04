@@ -5,7 +5,6 @@ import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.repository.UserRepo;
 import com.nathan.ataovybackend.security.JwtUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
