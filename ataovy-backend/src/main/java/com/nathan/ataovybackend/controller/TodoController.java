@@ -53,4 +53,14 @@ public class TodoController {
         }
 
     }
+
+    @PutMapping("/")
+    public ResponseEntity<?> editTodo(@RequestBody Todo todo){
+        try{
+            service.createTodo(todo);
+            return new ResponseEntity<>("Todo edit succesfully", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }
