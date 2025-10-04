@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -31,5 +32,16 @@ public class TodoController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/create-multiple")
+    public ResponseEntity<?> createMultipleTodos(@RequestBody List<Todo> todo){
+        try{
+            service.createTodos(todo);
+            return new ResponseEntity<>("To do created succesfully", HttpStatus.CREATED);
+        } catch (Exception ex){
+            return new  ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+     }
+
 
 }

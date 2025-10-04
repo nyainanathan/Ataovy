@@ -21,4 +21,9 @@ public class TodoService {
     public void createTodo(Todo todo) {
         repo.save(todo);
     }
+
+    public void createTodos(List<Todo> todos) {
+        repo.save(todos.get(0));
+        repo.saveAll(todos.subList(1, todos.size()));
+    }
 }
