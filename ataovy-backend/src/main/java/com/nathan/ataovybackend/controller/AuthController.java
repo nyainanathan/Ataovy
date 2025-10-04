@@ -4,10 +4,12 @@ import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.AuthService;
-import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,18 +25,17 @@ public class AuthController {
         return authService.loginUser(loginCredentials);
     }
 
-    @GetMapping("/token")
-    public String getToken(@RequestBody String username) {
-        return jwtUtil.generateToken(username);
-    }
-
-    @GetMapping("/name")
-    public String testToken(@RequestBody String token) throws JwtException, IllegalArgumentException {
-        return jwtUtil.extractUsername(token);
-    }
-
-    @GetMapping("/validate")
-    public boolean validateToken(@RequestBody String token) throws JwtException, IllegalArgumentException {
-        return jwtUtil.validateToken(token);
+    @PostMapping("/signup")
+    private ResponseEntity<String> signupUser(@RequestBody User user) {
+        try{
+            authService.createUser(user);
+            return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            if(Objects.equals(e.getMessage(), "User already exists")) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            }
+            return new ResponseEntity<>("Failed to create user: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

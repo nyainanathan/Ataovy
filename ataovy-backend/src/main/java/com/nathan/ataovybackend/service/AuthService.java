@@ -28,4 +28,13 @@ public class AuthService {
         }
         return "invalid password";
     }
+
+    public void createUser(User user) throws Exception {
+        if(repo.findByEmail(user.getEmail()) == null){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            repo.save(user);
+        } else {
+            throw new Exception("User already exists");
+        }
+    }
 }
