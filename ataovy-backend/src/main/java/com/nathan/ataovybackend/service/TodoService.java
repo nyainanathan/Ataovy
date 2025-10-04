@@ -26,4 +26,8 @@ public class TodoService {
         repo.save(todos.get(0));
         repo.saveAll(todos.subList(1, todos.size()));
     }
+
+    public void deleteTodo(UUID todoId) {
+        repo.deleteById(todoId);
+    }
 }
