@@ -17,14 +17,20 @@ const Home = () => {
     }
 
     const getCurrentUserId = async() => {
-        const response = await fetch(`${API_URL}/user/id`, 
-            {
-                method: 'GET',
-                credentials: 'include'
-            }
-        )
-        const data = await response.text();
-        console.log(data);
+        try{
+
+            const response = await fetch(`${API_URL}/user/id`, 
+                {
+                    method: 'GET',
+                    credentials: 'include'
+                }
+            )
+            const data = await response.text();
+            console.log(data);
+        } catch(e){
+            console.log(e);
+            
+        }
         
     }
 

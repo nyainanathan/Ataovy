@@ -44,14 +44,17 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{email}")
-    public User getUserByEmail(@PathVariable String email) {
-        return service.getUserByEmail(email);
-    }
 
     @GetMapping("/id")
     public UUID getCurrentUserID(HttpServletRequest request) {
         return service.getCurrentUserId(request);
     }
+
+
+//    @GetMapping("/{email}")
+//    public User getUserByEmail(@PathVariable String email) {
+//        return service.getUserByEmail(email);
+//    }
+
 
 }

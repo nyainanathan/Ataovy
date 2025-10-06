@@ -4,6 +4,7 @@ import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -24,27 +25,34 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
+        Cookie[] cookies = request.getCookies();
 
-        if (header != null && header.startsWith("Bearer ")) {
-            try {
-                String token = header.substring(7);
-                String email = jwtUtil.extractUsername(token);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwt".equals(cookie.getName())) {
+                    try {
+                        String token = cookie.getValue();
+                        String email = jwtUtil.extractUsername(token);
 
-                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+                        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
-                    if (jwtUtil.validateToken(token)) {
-                        UsernamePasswordAuthenticationToken auth =
-                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        SecurityContextHolder.getContext().setAuthentication(auth);
+                            if (jwtUtil.validateToken(token)) {
+                                UsernamePasswordAuthenticationToken auth =
+                                        new UsernamePasswordAuthenticationToken(
+                                                userDetails, null, userDetails.getAuthorities());
+                                SecurityContextHolder.getContext().setAuthentication(auth);
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.err.println("JWT Token validation error: " + e.getMessage());
+                        SecurityContextHolder.clearContext();
                     }
+                    break; 
                 }
-            } catch (Exception e) {
-                System.err.println("JWT Token validation error: " + e.getMessage());
-                SecurityContextHolder.clearContext();
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }
