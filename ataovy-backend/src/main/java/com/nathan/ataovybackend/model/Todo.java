@@ -52,4 +52,6 @@ public class Todo {
     @Column(name="main_todo")
     private UUID mainTodoId;
 
+    @Column(name = "category_id")
+    private UUID categoryId;
 }
