@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -35,6 +37,12 @@ public class AuthController {
         }
         return new ResponseEntity<>(token,HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("/logout")
+    private ResponseEntity<?> logoutUser(HttpServletResponse response) {
+        return new ResponseEntity<>("Logout succesful",HttpStatus.OK);
+    }
+
 
     @PostMapping("/signup")
     private ResponseEntity<String> signupUser(@RequestBody User user) {
