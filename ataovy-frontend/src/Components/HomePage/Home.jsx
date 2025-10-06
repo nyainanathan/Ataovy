@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SideBar from "./Sidebar";
 
 const Home = () => {
 
@@ -62,36 +63,11 @@ const Home = () => {
     //     getTodos()
     // } , [userId])
 
-    return (
-        <>
-            <p>Welcome to Ataovy</p>
-            <button className="bg-red-300 p-3 rounded-2xl"
-                onClick={handleLogout}
-            >
-                Logout!!
-            </button>
-
-            <button
-                onClick={getTodos}
-            >
-                Get those todos
-            </button>
-
-        
-            {todo.map((el, index) => (
-                <p>{el.description}</p>
-            ))}
-        
-
-            <button
-                onClick={getCurrentUserId}
-                className="bg-amber-50 p-3 rounded-2xl"
-            >
-
-                Get current user Id
-            </button>
-        </>
-        
+    return (    
+            <div className="w-screen h-screen bg-amber-50 flex justify-evenly items-center">
+                <SideBar />
+                <div className="w-[80%] h-[95%] bg-amber-300">TEst</div>
+            </div>
     )
 }
 export default Home;
