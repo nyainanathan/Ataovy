@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-
+    const [userId, setUserId] = useState('');
+    const [todo, setTodo] = useState([]);
+    
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -18,7 +21,6 @@ const Home = () => {
 
     const getCurrentUserId = async() => {
         try{
-
             const response = await fetch(`${API_URL}/user/id`, 
                 {
                     method: 'GET',
@@ -26,13 +28,39 @@ const Home = () => {
                 }
             )
             const data = await response.text();
-            console.log(data);
+            setUserId(data.substring(1,37))            
         } catch(e){
             console.log(e);
-            
         }
-        
     }
+
+
+
+    const getTodos = async () => {
+        try{
+            const todo_raw = await fetch(`${API_URL}/todo/${userId}` , {
+                method: 'GET', 
+                credentials: 'include'
+            })
+            const todos = await todo_raw.json();
+            console.log(todos);
+            
+            setTodo(todos);
+        } catch (e) {
+            console.log(e);            
+        }
+    }
+
+    // useEffect(() => {
+    //     const refresh = async () => {
+    //         await getCurrentUserId();
+    //         await getTodos();
+    //     }
+    //     refresh()
+    // } , [])
+    // useEffect(()=>{
+    //     getTodos()
+    // } , [userId])
 
     return (
         <>
@@ -42,6 +70,18 @@ const Home = () => {
             >
                 Logout!!
             </button>
+
+            <button
+                onClick={getTodos}
+            >
+                Get those todos
+            </button>
+
+        
+            {todo.map((el, index) => (
+                <p>{el.description}</p>
+            ))}
+        
 
             <button
                 onClick={getCurrentUserId}

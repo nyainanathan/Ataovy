@@ -19,8 +19,8 @@ public class TodoController {
     private TodoService service;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getTodoByUserId(@PathVariable UUID userId) {
-        return ResponseEntity.ok(service.findTodoByUserId(userId));
+    public ResponseEntity<?> getTodoByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(service.findTodoByUserId(UUID.fromString(userId)));
     }
 
     @PostMapping("/create-single")

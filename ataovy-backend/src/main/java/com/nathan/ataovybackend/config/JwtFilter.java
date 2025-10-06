@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         System.err.println("JWT Token validation error: " + e.getMessage());
                         SecurityContextHolder.clearContext();
                     }
-                    break; 
+                    break;
                 }
             }
         }
