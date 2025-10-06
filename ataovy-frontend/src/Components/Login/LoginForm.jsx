@@ -38,15 +38,16 @@ const LoginForm = () => {
                 body: JSON.stringify(loginRequestObject),
                 credentials: "include",
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-Type': 'application/json'
                 }
             });
             const loginStatus = await loginStatusRaw.text();
-            if(loginStatus != "invalid email" && loginStatus != "invalid password"){
-                console.log(loginStatus);
+            if(loginStatus == "Login successful"){
+                navigate("/home")
             } else {
-                alert(loginStatus)
+                alert(loginStatus);
             }
+            
         } catch(err){
             console.error(err);
         }

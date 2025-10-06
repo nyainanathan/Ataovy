@@ -2,7 +2,6 @@ package com.nathan.ataovybackend.controller;
 
 import com.nathan.ataovybackend.dto.LoginRequest;
 import com.nathan.ataovybackend.model.User;
-import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,14 +27,13 @@ public class AuthController {
             Cookie cookie = new Cookie("jwt", token);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
-            cookie.setAttribute("SameSite", "Strict");
-
+            cookie.setMaxAge(5 * 60);
+            cookie.setSecure(false);
             response.addCookie(cookie);
 
             return ResponseEntity.ok("Login successful");
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(token,HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/signup")
