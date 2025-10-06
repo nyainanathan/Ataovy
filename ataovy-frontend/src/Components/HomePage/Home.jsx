@@ -16,6 +16,18 @@ const Home = () => {
         }
     }
 
+    const getCurrentUserId = async() => {
+        const response = await fetch(`${API_URL}/user/id`, 
+            {
+                method: 'GET',
+                credentials: 'include'
+            }
+        )
+        const data = await response.text();
+        console.log(data);
+        
+    }
+
     return (
         <>
             <p>Welcome to Ataovy</p>
@@ -23,6 +35,14 @@ const Home = () => {
                 onClick={handleLogout}
             >
                 Logout!!
+            </button>
+
+            <button
+                onClick={getCurrentUserId}
+                className="bg-amber-50 p-3 rounded-2xl"
+            >
+
+                Get current user Id
             </button>
         </>
         

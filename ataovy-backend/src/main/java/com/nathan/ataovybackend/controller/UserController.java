@@ -5,6 +5,8 @@ import com.nathan.ataovybackend.model.User;
 import com.nathan.ataovybackend.security.JwtUtil;
 import com.nathan.ataovybackend.service.UserService;
 import io.jsonwebtoken.JwtException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -21,7 +24,7 @@ import java.util.Optional;
 public class UserController {
 
     private UserService service;
-
+    private JwtUtil jwtUtil;
     @GetMapping("/")
     public List<User> getAllUser() {
         return service.getAllUser();
@@ -45,4 +48,10 @@ public class UserController {
     public User getUserByEmail(@PathVariable String email) {
         return service.getUserByEmail(email);
     }
+
+    @GetMapping("/id")
+    public UUID getCurrentUserID(HttpServletRequest request) {
+        return service.getCurrentUserId(request);
+    }
+
 }
