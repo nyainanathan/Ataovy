@@ -26,7 +26,7 @@ const TopTask = ({ tasks = [] }) => {
 
     const getTopTaskFormattedDate = () => {
         if (!topTodo || !topTodo.deadline) return;
-        console.log(topTodo.deadline);
+        // console.log(topTodo.deadline);
         const date = topTodo.deadline.substring(0,10).split('-').map(val => Number(val)).reverse();
         let formatedDate = months[date[1] - 1 ] + ' ' + date[0] + ', ' + date[2];
         setDueDate(formatedDate);
@@ -35,7 +35,7 @@ const TopTask = ({ tasks = [] }) => {
         const remainingTimeInMinutes = remainingTimeInMilliSeconds / (1000 * 60);
         const remainingTimeInHours = remainingTimeInMilliSeconds / (1000 * 60 * 60);
         const remainingTimeInDays = remainingTimeInMilliSeconds / (1000 * 60 * 60 * 24);
-        console.log(remainingTimeInMinutes, remainingTimeInHours, remainingTimeInDays);
+        // console.log(remainingTimeInMinutes, remainingTimeInHours, remainingTimeInDays);
         if (remainingTimeInMilliSeconds < 0) {
             if(remainingTimeInDays > -1) {
                 setStatus(`Late of ${remainingTimeInHours} hours`)

@@ -1,13 +1,61 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const SearchBar = ({tasks = []}) => {
+const SearchBar = ({tasks = []  , userId = ''} ) => {
+
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
+
+    const [categories, setCategories] = useState([]);
+    const [availableCategoriesId, setAvailableCategoriesId] = useState([]);
+    const [availableCategories, setAvailableCategories] = useState([]);
+    const [presentCategories, setPresentCategories] = useState([])
+    useEffect(() => {
+        
+        const fetchingCategories = async () => {
+            try {
+                const data = await fetch(`${API_URL}/category/?userId=${userId}` , {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const categoriess = await data.json();
+                setCategories(categoriess)
+            } catch(e) {
+                console.error(e);
+            }
+        }
+        if(userId) fetchingCategories();
+    }, [userId])
 
     useEffect(() => {
-        if(tasks){
-            console.log(tasks);
+        // console.log(categories);
+        
+        const categoriesSet = new Set();
+        for(const task of tasks) {
+            categoriesSet.add(task.categoryId)
         }
-    } , tasks)
+        const cat = Array.from(categoriesSet); 
+        // console.log(cat);
+        // console.log(categories);
+        
+        
+        const temp = categories.filter(el => cat.includes(el.id))   
+        console.log(temp);
+           
+        setPresentCategories(temp);
+        
+        setAvailableCategoriesId(cat);
 
+    } , [categories])
+
+    // useEffect(() => {
+    //     console.log(availableCategories);
+        
+    // } , [availableCategoriesId])
+
+    // useEffect(() => {
+    //     if(tasks){
+    //         console.log(tasks);
+    //     }
+    // } , [tasks]);
 
     return (
         <div className="w-full bg-amber-50 flex ">
@@ -25,6 +73,14 @@ const SearchBar = ({tasks = []}) => {
 
                 <div>
                     <i className="fa-solid fa-filter"></i>
+                    <select name="" id="">
+
+                        {
+                            presentCategories.map((el, index) => (
+                                <option value={el.id}>{el.title}</option>
+                            ))
+                        }
+                    </select>
                 </div>
             </div>
         </div>

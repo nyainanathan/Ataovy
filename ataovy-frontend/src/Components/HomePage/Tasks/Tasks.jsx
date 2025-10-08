@@ -40,7 +40,7 @@ const Tasks = () => {
     return (
         <div className="w-[80%] h-[95%] bg-blue-100 rounded-2xl p-3 flex flex-col items-center gap-3">
             <TopTask tasks={tasks}/>
-            <SearchBar tasks={tasks} />
+            <SearchBar tasks={tasks} userId = {userId}/>
         </div>
     )
 }
