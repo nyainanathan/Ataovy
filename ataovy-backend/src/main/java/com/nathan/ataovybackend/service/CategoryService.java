@@ -23,4 +23,8 @@ public class CategoryService {
     public Category createCategory(Category category) {
         return repo.save(category);
     }
+
+    public void deleteCategory(String categoryId) {
+        repo.deleteById(UUID.fromString(categoryId));
+    }
 }

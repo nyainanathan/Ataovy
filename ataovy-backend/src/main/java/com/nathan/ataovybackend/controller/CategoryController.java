@@ -31,4 +31,10 @@ public class CategoryController {
     private Category updateCategory(@RequestBody Category category) {
         return service.createCategory(category);
     }
+
+    @DeleteMapping("/")
+    private void deleteCategory(@RequestParam String categoryId){
+        service.deleteCategory(categoryId);
+    }
+
 }
