@@ -21,4 +21,9 @@ public class CategoryController {
     private List<Category> getCategories(@RequestParam String userId) {
         return service.getCategories(userId);
     }
+
+    @PostMapping("/")
+    private Category createCategory(@RequestBody Category category) {
+        return service.createCategory(category);
+    }
 }

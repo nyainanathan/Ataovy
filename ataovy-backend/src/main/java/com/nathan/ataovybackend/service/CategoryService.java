@@ -19,4 +19,8 @@ public class CategoryService {
     public List<Category> getCategories(String userId) {
         return repo.getCategoriesByUserId(UUID.fromString(userId));
     }
+
+    public Category createCategory(Category category) {
+        return repo.save(category);
+    }
 }
