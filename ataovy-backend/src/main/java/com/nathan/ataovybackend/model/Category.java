@@ -29,4 +29,7 @@ public class Category {
 
     @Column(name = "name")
     private String title;
+
+    @Column(name = "user_id")
+    private UUID  userId;
 }

@@ -32,7 +32,6 @@ const TopTask = ({ tasks = [] }) => {
         setDueDate(formatedDate);
 
         const remainingTimeInMilliSeconds = new Date(topTodo.deadline)  - new Date();
-        // console.log(remainingTimeInMilliSeconds);
         const remainingTimeInMinutes = remainingTimeInMilliSeconds / (1000 * 60);
         const remainingTimeInHours = remainingTimeInMilliSeconds / (1000 * 60 * 60);
         const remainingTimeInDays = remainingTimeInMilliSeconds / (1000 * 60 * 60 * 24);
@@ -76,7 +75,7 @@ const TopTask = ({ tasks = [] }) => {
     return (
         <div className="w-full h-1/4 bg-amber-50  rounded-2xl flex flex-col gap-5">
             <div className="flex flex-col gap-3 bg-blue-400 rounded-t-2xl  py-2  px-6">
-                <p>Closest deadline task</p>
+                <p>Most urgent task</p>
                 <p className="text-2xl">
                     {
                         topTodo.description
