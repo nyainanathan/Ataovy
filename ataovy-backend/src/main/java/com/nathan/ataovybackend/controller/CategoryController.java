@@ -26,4 +26,9 @@ public class CategoryController {
     private Category createCategory(@RequestBody Category category) {
         return service.createCategory(category);
     }
+
+    @PutMapping("/")
+    private Category updateCategory(@RequestBody Category category) {
+        return service.createCategory(category);
+    }
 }
