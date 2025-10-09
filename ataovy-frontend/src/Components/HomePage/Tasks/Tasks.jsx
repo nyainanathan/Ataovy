@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import TopTask from "./TopTask";
 import SearchBar from "./SearchBar";
+import TaskContainer from "./TaskContainer";
+import Task from "./Task";
+import Archived from "./Archived";
 
 const Tasks = () => {
 
     const [tasks, setTasks] = useState([]);
     const [userId, setUserId] = useState("");
+
+    const possibleTaskStatus = ['NOT_STARTED', 'IN_PROGRESS', 'DONE']; 
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -41,6 +46,17 @@ const Tasks = () => {
         <div className="w-[80%] h-[95%] bg-blue-100 rounded-2xl p-3 flex flex-col items-center gap-3">
             <TopTask tasks={tasks}/>
             <SearchBar tasks={tasks} userId = {userId}/>
+            <div className="flex h-3/5 w-full">
+
+                {
+                    possibleTaskStatus.map((el, index) => (
+
+                        <TaskContainer task={tasks} taskStatus={el} />
+                    )
+                    )
+                }
+            <Archived />
+            </div>
         </div>
     )
 }
