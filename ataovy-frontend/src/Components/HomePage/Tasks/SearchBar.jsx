@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import NewtodoForm from "./NewtodoForm";
 
 const SearchBar = ({tasks = []  , userId = ''} ) => {
 
@@ -6,8 +7,11 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
 
     const [categories, setCategories] = useState([]);
     const [availableCategoriesId, setAvailableCategoriesId] = useState([]);
-    const [availableCategories, setAvailableCategories] = useState([]);
-    const [presentCategories, setPresentCategories] = useState([])
+    const [presentCategories, setPresentCategories] = useState([]);
+    const [creationMode, setCreationMode] = useState(false);
+    const [allCategories , setAllCategories] = useState([]);
+    const closePopUp = () => setCreationMode(false);
+
     useEffect(() => {
         
         const fetchingCategories = async () => {
@@ -26,17 +30,12 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
     }, [userId])
 
     useEffect(() => {
-        // console.log(categories);
-        
+
         const categoriesSet = new Set();
         for(const task of tasks) {
             categoriesSet.add(task.categoryId)
         }
         const cat = Array.from(categoriesSet); 
-        // console.log(cat);
-        // console.log(categories);
-        
-        
         const temp = categories.filter(el => cat.includes(el.id))   
         console.log(temp);
            
@@ -46,22 +45,14 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
 
     } , [categories])
 
-    // useEffect(() => {
-    //     console.log(availableCategories);
-        
-    // } , [availableCategoriesId])
-
-    // useEffect(() => {
-    //     if(tasks){
-    //         console.log(tasks);
-    //     }
-    // } , [tasks]);
-
     return (
         <div className="w-full bg-amber-50 flex ">
             <div className="w-1/2 p-3 flex gap-10 items-center">
                 <p>{tasks.length} {tasks.length > 1 ? ' todos' : ' todo'}</p>
-                <button className="bg-amber-300 p-2 rounded-4xl cursor-pointer"> 
+                <button
+                className="bg-amber-300 p-2 rounded-4xl cursor-pointer"
+                onClick={() => setCreationMode(true)}
+                > 
                     + Add New
                 </button>
             </div>
@@ -77,12 +68,16 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
 
                         {
                             presentCategories.map((el, index) => (
-                                <option value={el.id}>{el.title}</option>
+                                <option value={el.id} key={el.id} >{el.title}</option>
                             ))
                         }
                     </select>
                 </div>
             </div>
+
+           {
+            creationMode &&  <NewtodoForm close={closePopUp} user={userId} categories={categories}/>
+           } 
         </div>
     )
 }
