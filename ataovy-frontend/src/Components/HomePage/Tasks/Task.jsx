@@ -95,6 +95,25 @@ const Task = ({ task, onChange }) => {
         }
     }
 
+    const handleDeletion = async () => {
+        
+        try{
+            const requestStatus = await fetch(`${API_URL}/todo/${task.id}`, {
+                method: 'DELETE',
+                headers : {
+                    'Content-Type' : 'application/type'
+                },
+                credentials: 'include'
+            });
+            if(requestStatus.ok) {
+                alert('Task Deleted');
+                onChange()
+            }
+        } catch(e) {
+            console.error(e);            
+        }
+    }
+
     useEffect(() => {
         getFormattedDate()
     } , [task])
@@ -143,6 +162,12 @@ const Task = ({ task, onChange }) => {
                         className="bg-blue-400 p-2 rounded-2xl"
                         onClick={() => setEditingMode(true)}
                         >EDIT</button>
+                        <button
+                        className="bg-red-400 rounded-2xl p-2"
+                        onClick={handleDeletion}
+                        >
+                            DELETE
+                        </button>
                     </div>
                 </>
             }

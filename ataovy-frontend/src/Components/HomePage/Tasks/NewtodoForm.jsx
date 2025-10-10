@@ -1,4 +1,3 @@
-import { meta } from "@eslint/js";
 import { useEffect, useMemo, useState } from "react";
 
 const NewtodoForm = ({close, user, categories, onSuccess}) => {
