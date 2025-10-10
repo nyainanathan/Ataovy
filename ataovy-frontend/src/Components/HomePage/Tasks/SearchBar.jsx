@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NewtodoForm from "./NewtodoForm";
 
-const SearchBar = ({tasks = []  , userId = '', onChange} ) => {
+const SearchBar = ({tasks = []  , userId = '', onChange , changeTasks} ) => {
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -40,8 +40,10 @@ const SearchBar = ({tasks = []  , userId = '', onChange} ) => {
         setAvailableCategoriesId(cat);
     } , [categories, tasks])
 
+    
+
     return (
-        <div className="w-full bg-amber-50 flex ">
+        <div className="w-full  flex ">
             <div className="w-1/2 p-3 flex gap-10 items-center">
                 <p>{tasks.length} {tasks.length > 1 ? ' todos' : ' todo'}</p>
                 <button

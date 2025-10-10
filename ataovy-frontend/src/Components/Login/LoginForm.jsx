@@ -1,31 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Background from "./Background";
 
 const LoginForm = () => {
 
-    const motivationalTexts = [
-    "Every task completed is a step forward!",
-    "You're making progress, one todo at a time!",
-    "Small steps lead to big accomplishments!",
-    "Stay focused and watch your productivity soar!",
-    "You've got this! Keep crushing those tasks!",
-    "Productivity is built one task at a time!",
-    "Your future self will thank you for starting today!"
-    ];
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [messageIndex, setMessageIndex] = useState(0);
     const navigate = useNavigate();
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
     
-    useEffect(() => {
-        const messageInterval = setInterval(() => {
-            setMessageIndex((prev) => (prev + 1) % motivationalTexts.length)
-        }, 9000);
-        return () => clearInterval(messageInterval);
-    }, [messageIndex]);
 
     const handleLogin = async () => {
         try{
@@ -58,14 +44,7 @@ const LoginForm = () => {
     return (
         <div className="w-screen h-screen flex">
             
-            <div className="w-1/2 h-full bg-[url('/login-background.jpg')] bg-cover flex flex-col items-center justify-between p-16">
-                
-                <img src="/ataovy-logo-nobg.png" className=" w-1/3" alt="" />
-
-                <p className="text-2xl text-white italic">
-                    {motivationalTexts[messageIndex]}
-                </p>
-            </div>
+        <Background />
 
             <div className="flex flex-col w-1/2 items-center gap-10 m-auto p-8 ">
                 <p className="text-4xl">
