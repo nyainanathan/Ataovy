@@ -51,6 +51,26 @@ const Task = ({task}) => {
         }
     }
 
+    const handlePreviousState = async () => {
+        try{
+            const editedTodo = task;
+            editedTodo.status = getPreviousState();
+            const editState = await fetch(`${API_URL}/todo/`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(editedTodo)
+            });
+            if(editState.ok) {
+                alert('To do edit succesfully')
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     useEffect(() => {
         getFormattedDate()
     } , [task])
@@ -71,12 +91,13 @@ const Task = ({task}) => {
             </p>
             <div className="flex flex-col gap-2">
                 {
-                    task.status != 'NOT_STARTED' && (
+                task.status != 'NOT_STARTED' && 
+                    <button
+                        onClick={handlePreviousState}
+                    >
                         <i className="fa-solid fa-circle-arrow-left text-2xl"></i>
-                    )
-                    
+                    </button>
                 }
-                <i className="fa-solid fa-circle-arrow-right text-2xl"></i>
             </div>
             </div>
             <div className="flex gap-2 m-auto">
