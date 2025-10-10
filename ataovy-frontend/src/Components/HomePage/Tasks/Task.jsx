@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 const Task = ({task}) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May' , 'June' , 'July' , 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const [datee, setDatee] = useState('');
+    const [editingMode, setEditingMode] = useState(false);
+    const [taskDesc, setTaskDesc] = useState(task.description);
+    const [taskDeadline, setTaskDeadline] = useState(task.deadline.substring(0,16))
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -71,45 +74,106 @@ const Task = ({task}) => {
         }
     }
 
+    const confirmEdit = async () => {
+        const editedTodo = task;
+        editedTodo.description = taskDesc;
+        editedTodo.deadline = taskDeadline;
+        try {
+            const edit = await fetch(`${API_URL}/todo/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(editedTodo)
+            })
+            if(edit.ok) {
+                alert('To do edited succesfully');
+                setEditingMode(false)
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     useEffect(() => {
         getFormattedDate()
     } , [task])
 
     return (
         <div className="bg-amber-400 mt-1 mb-1 p-3 rounded-2xl flex flex-col">
-            <div
-                className="flex items-center gap-3"
-            >
-                <i className="fa-solid fa-calendar-days"></i>
-                <p>{datee}</p>
-           
-            </div>
-            <div className="flex justify-between">
+            {
+                !editingMode && 
+                <>
+                    <div className="flex items-center gap-3">
 
-            <p className="p-2">
-                {task.description}
-            </p>
-            <div className="flex flex-col gap-2">
-                {
-                task.status != 'NOT_STARTED' && 
-                    <button
-                        onClick={handlePreviousState}
-                    >
-                        <i className="fa-solid fa-circle-arrow-left text-2xl"></i>
-                    </button>
-                }
-            </div>
-            </div>
-            <div className="flex gap-2 m-auto">
-                <button className="bg-green-400 p-2 rounded-2xl"
-                    onClick={handleNextState}
-                >
-                    {
-                            getNextStateButton()
-                    }
-                </button>
-                <button className="bg-blue-400 p-2 rounded-2xl">EDIT</button>
-            </div>
+                        <i className="fa-solid fa-calendar-days"></i>
+
+                        <p>{datee}</p>
+
+                    </div>
+
+                    <div className="flex justify-evenly">
+
+                        <div className="flex justify-start">
+                            {
+                            task.status != 'NOT_STARTED' && 
+                                <button
+                                    onClick={handlePreviousState}
+                                >
+                                    <i className="fa-solid fa-circle-arrow-left text-2xl"></i>
+                                </button>
+                            }
+                        </div>
+
+                        <p className="p-2">
+                            {task.description}
+                        </p>
+
+                    </div>
+                
+                    <div className="flex gap-2 m-auto">
+                        <button className="bg-green-400 p-2 rounded-2xl"
+                            onClick={handleNextState}
+                        >
+                            {
+                                    getNextStateButton()
+                            }
+                        </button>
+                        <button 
+                        className="bg-blue-400 p-2 rounded-2xl"
+                        onClick={() => setEditingMode(true)}
+                        >EDIT</button>
+                    </div>
+                </>
+            }
+            {
+                editingMode && 
+                    <div className="flex items-center gap-3 flex-col">
+
+              
+                        <div>
+                            <i className="fa-solid fa-calendar-days"></i>
+                            <label htmlFor="date"> New deadline</label>
+                            <input type="datetime-local" name="date" id="date" 
+                             value={taskDeadline}  onChange={(e) => setTaskDeadline(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <i className="fa-solid fa-pen"></i>
+                            <label htmlFor="description">New description</label>
+                            <input type="text" name="description" id="description" value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} />
+                        </div>
+                        <div className="flex gap-5">
+                            <button
+                                onClick={confirmEdit}
+                            >CONFIRM</button>
+                            <button
+                             onClick={()=> {setEditingMode(false)} }
+                            >CANCEL</button>
+                        </div>
+                    </div>
+            }
         </div>
     )
 }
