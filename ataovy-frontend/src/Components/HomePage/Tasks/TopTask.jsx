@@ -38,14 +38,14 @@ const TopTask = ({ tasks = [] }) => {
         // console.log(remainingTimeInMinutes, remainingTimeInHours, remainingTimeInDays);
         if (remainingTimeInMilliSeconds < 0) {
             if(remainingTimeInDays > -1) {
-                setStatus(`Late of ${remainingTimeInHours} hours`)
+                setStatus(`Late of ${Math.ceil(remainingTimeInHours * -1)} hours`)
             } else {
                 setStatus(`Late of ${Math.ceil(remainingTimeInDays * (-1))} days`)
             }
             
         } else {
             if(remainingTimeInDays < 1) {
-                setStatus(`H-${Maths.ceil(remainingTimeInHours)}`)
+                setStatus(`H-${Math.ceil(remainingTimeInHours)}`)
             } else {
                 setStatus(`J-${Math.ceil(remainingTimeInDays)}`)
             }

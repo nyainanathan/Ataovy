@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NewtodoForm from "./NewtodoForm";
 
-const SearchBar = ({tasks = []  , userId = ''} ) => {
+const SearchBar = ({tasks = []  , userId = '', onChange} ) => {
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -30,20 +30,15 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
     }, [userId])
 
     useEffect(() => {
-
         const categoriesSet = new Set();
         for(const task of tasks) {
             categoriesSet.add(task.categoryId)
         }
-        const cat = Array.from(categoriesSet); 
-        const temp = categories.filter(el => cat.includes(el.id))   
-        console.log(temp);
-           
+        const cat = Array.from(categoriesSet);
+        const temp = categories.filter(el => cat.includes(el.id));
         setPresentCategories(temp);
-        
         setAvailableCategoriesId(cat);
-
-    } , [categories])
+    } , [categories, tasks])
 
     return (
         <div className="w-full bg-amber-50 flex ">
@@ -76,7 +71,7 @@ const SearchBar = ({tasks = []  , userId = ''} ) => {
             </div>
 
            {
-            creationMode &&  <NewtodoForm close={closePopUp} user={userId} categories={categories}/>
+            creationMode &&  <NewtodoForm close={closePopUp} user={userId} categories={categories} onSuccess={onChange} />
            } 
         </div>
     )

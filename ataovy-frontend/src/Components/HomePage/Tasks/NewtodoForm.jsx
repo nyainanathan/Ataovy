@@ -1,15 +1,15 @@
 import { meta } from "@eslint/js";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const NewtodoForm = ({close, user, categories}) => {
+const NewtodoForm = ({close, user, categories, onSuccess}) => {
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-
 
     const [description, setDescription] = useState("");
     const [deadline, setDeadline] = useState(new Date().toISOString().substring(0,16));
     const [isRecurring, setIsRecurring] = useState(false);
-    const [category, setCategory] = useState(categories[0].id);
+    const defaultCategoryId = useMemo(() => (categories && categories.length ? categories[0].id : undefined), [categories]);
+    const [category, setCategory] = useState(defaultCategoryId);
 
 
     const validateForm = () => {
@@ -43,6 +43,7 @@ const NewtodoForm = ({close, user, categories}) => {
             if(data.ok){
                 alert('to do created succesfully');
                 close();
+                onSuccess && onSuccess();
             } else {
                 alert('there was an error')
             }

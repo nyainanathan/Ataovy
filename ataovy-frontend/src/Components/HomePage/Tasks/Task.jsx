@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Task = ({task}) => {
+const Task = ({ task, onChange }) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May' , 'June' , 'July' , 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const [datee, setDatee] = useState('');
     const [editingMode, setEditingMode] = useState(false);
@@ -36,8 +36,7 @@ const Task = ({task}) => {
 
     const handleNextState = async () => {
         try{
-            const editedTodo = task;
-            editedTodo.status = getNextState();
+            const editedTodo = { ...task, status: getNextState() };
             const editState = await fetch(`${API_URL}/todo/`, {
                 method: 'PUT',
                 credentials: 'include',
@@ -47,7 +46,8 @@ const Task = ({task}) => {
                 body: JSON.stringify(editedTodo)
             });
             if(editState.ok) {
-                alert('To do edit succesfully')
+                alert('To do edit succesfully');
+                onChange && onChange();
             }
         } catch (e) {
             console.error(e);
@@ -56,8 +56,7 @@ const Task = ({task}) => {
 
     const handlePreviousState = async () => {
         try{
-            const editedTodo = task;
-            editedTodo.status = getPreviousState();
+            const editedTodo = { ...task, status: getPreviousState() };
             const editState = await fetch(`${API_URL}/todo/`, {
                 method: 'PUT',
                 credentials: 'include',
@@ -67,7 +66,8 @@ const Task = ({task}) => {
                 body: JSON.stringify(editedTodo)
             });
             if(editState.ok) {
-                alert('To do edit succesfully')
+                alert('To do edit succesfully');
+                onChange && onChange();
             }
         } catch (e) {
             console.error(e);
@@ -75,9 +75,7 @@ const Task = ({task}) => {
     }
 
     const confirmEdit = async () => {
-        const editedTodo = task;
-        editedTodo.description = taskDesc;
-        editedTodo.deadline = taskDeadline;
+        const editedTodo = { ...task, description: taskDesc, deadline: taskDeadline };
         try {
             const edit = await fetch(`${API_URL}/todo/`, {
                 method: 'PUT',
@@ -89,7 +87,8 @@ const Task = ({task}) => {
             })
             if(edit.ok) {
                 alert('To do edited succesfully');
-                setEditingMode(false)
+                setEditingMode(false);
+                onChange && onChange();
             }
         } catch (e) {
             console.error(e);
